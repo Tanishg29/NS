@@ -1,31 +1,36 @@
 #include <iostream>
 using namespace std;
+
 string encrypt(string text, int s)
 {
+    string result = "";
+    for (int i = 0; i < text.length(); i++) {
+        // Encrypt Uppercase letters
+        if (isupper(text[i]))
+            result += char(int(text[i] + s - 'A') % 26 + 'A');
 
-	string result = "";
-	for (int i = 0; i < text.length(); i++) {
-		// Encrypt Uppercase letters
-		if (isupper(text[i]))
-			result += char(int(text[i] + s - 65) % 26 + 65);
+        // Encrypt Lowercase letters
+        else if (islower(text[i]))
+            result += char(int(text[i] + s - 'a') % 26 + 'a');
 
-		// Encrypt Lowercase letters
-		else
-			result += char(int(text[i] + s - 97) % 26 + 97);
-	}
-	return result;
+        // Keep non-alphabetic characters as they are
+        else
+            result += text[i];
+    }
+    return result;
 }
 
 int main()
 {
-	string text;
-	cout<<"Enter text"<<endl;
-	cin>>text;
-	int s = 5;
-	cout << "Text : " << text;
-	cout << "\nShift: " << s;
-	s = s%26; // ensuring that s lies between 0-25
-	cout << "\nCipher: " << encrypt(text, s);
-	return 0;
-}
+    string text;
+    cout << "Enter text: ";
+    getline(cin, text); // Read entire line of input
 
+    int s = 5;
+    cout << "Text: " << text << endl;
+    cout << "Shift: " << s << endl;
+    s = s % 26; // Ensuring that s lies between 0-25
+    cout << "Cipher: " << encrypt(text, s) << endl;
+
+    return 0;
+}
